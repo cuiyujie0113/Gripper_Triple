@@ -21,16 +21,6 @@ angle_subscriber = AngleSubscriber()
 
 last_timestamp = None  # 记录上一次消息的时间
 
-zero_angles = [266.55029296875, 61.10595703125, 160.46630859375, 49.10888671875, 199.1162109375, 197.40234375, 267.42919921875, 12.63427734375]
-
-
-joint_names = [model.joint(i).name for i in range(model.njnt)]
-
-circle = [0, 0, 0, 0, 0, 0, 0, 0]
-previous_angle = [0, 0, 0, 0, 0, 0, 0, 0]
-
-
-controllers = [PositionController(model, data, joint_name) for joint_name in joint_names]
 
 # 打开 MuJoCo Viewer 进行仿真
 with mujoco.viewer.launch_passive(model, data) as viewer:
@@ -47,25 +37,11 @@ with mujoco.viewer.launch_passive(model, data) as viewer:
                 # print(f"Time interval between messages: {delta_time:.6f} seconds")
             last_timestamp = current_timestamp
 
-            # 更新控制器的目标位置
-            for i,controller in enumerate(controllers):
+            # 更新qpos
+            for i in range(len(angles)):
                 if not np.isnan(angles[i]):
-                    current_angle = angles[i] - zero_angles[i]
-                    if current_angle < 0:
-                        current_angle += 360
-
-                    if current_angle - previous_angle[i] > 180:
-                        circle[i] -= 1
-                    elif current_angle - previous_angle[i] < -180:
-                        circle[i] += 1
+                    data.qpos[i] = np.deg2rad(angles[i])
                     
-                    target_angle = current_angle + circle[i] * 360
-
-                    controller.set_target_position(target_angle)
-                    controller.update_control()
-                    previous_angle[i] = current_angle
-
-                    print(f"Joint {joint_names[i]}  target:{target_angle:.2f} degrees current:{current_angle:.2f} previous :{previous_angle[i]:.2f} degrees")
 
             # 进行物理仿真一步
             mujoco.mj_step(model, data)
