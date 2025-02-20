@@ -10,7 +10,7 @@ class AnglePublisher(Node):
     def __init__(self):
         super().__init__('angle_publisher')
         self.publisher_ = self.create_publisher(Float32MultiArray, 'angles', 10)
-        self.timer = self.create_timer(0.1, self.timer_callback)
+        self.timer = self.create_timer(0.0001, self.timer_callback)
 
 
         # init MT6701
@@ -20,27 +20,27 @@ class AnglePublisher(Node):
 
     def timer_callback(self):
         # 初始化角度列表
-        angles = [math.nan] * 9
+        angles = [math.nan] * 8
         msg_angles = Float32MultiArray()
 
         # 创建Header并设置时间戳
         header = Header()
         header.stamp = self.get_clock().now().to_msg()  # 设置时间戳
 
-        # direct connect
-        angle_direct = self.mt6701_direct.MT6701_I2C_read_angle()
-        if angle_direct is not None:
-            angles[0] = angle_direct
-        else:
-            angles[0] = math.nan
+        # # direct connect
+        # angle_direct = self.mt6701_direct.MT6701_I2C_read_angle()
+        # if angle_direct is not None:
+        #     angles[0] = angle_direct
+        # else:
+        #     angles[0] = math.nan
 
         # connect with mux
         for channel in range(8):
             angle_mux = self.mt6701_with_mux.MT6701_I2C_read_angle(channel)
             if angle_mux is not None:
-                angles[channel+1] = angle_mux
+                angles[channel] = angle_mux
             else:
-                angles[channel+1] = math.nan
+                angles[channel] = math.nan
 
         # 将角度数据赋值给消息
         msg_angles.data = angles
