@@ -17,7 +17,6 @@ class AngleSubscriber(Node):
 
     def listener_callback(self, msg):
         self.latest_angles = msg.data  # 更新最近的数据
-        # self.get_logger().info(f'Received angles: {self.latest_angles}')
         
 
 def main(args=None):
@@ -25,7 +24,9 @@ def main(args=None):
     angle_subscriber = AngleSubscriber()
 
     try:
-        rclpy.spin(angle_subscriber)
+        rclpy.spin_once(angle_subscriber)
+        angles = angle_subscriber.latest_angles
+        print(f'Angles: {angles}')
     except KeyboardInterrupt:
         pass
     finally:
