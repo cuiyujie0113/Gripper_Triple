@@ -6,15 +6,15 @@ from gripper3.envs import SimulatorBase
 from gripper3.utils.base_config import BaseConfig
 
 class GripperTripleCfg(BaseConfig):
-    mjcf_file_path = "mjcf/gripper_triple.xml"
+    mjcf_file_path = "mjcf/Gripper3.xml"
     decimation = 4
     timestep = 0.005
     sync = True
     headless = False
     render_set = {
         "fps": 24,
-        "width": 1280,
-        "height": 720
+        "width": 640,
+        "height": 480
     }
     obs_rgb_cam_id = None
     rb_link_list = ["base_link", "link_thumb_1", "link_thumb_2", "link_thumb_3", "link_index_1", "link_index_2", "link_index_3", "link_mid_1", "link_mid_2"]
@@ -28,12 +28,12 @@ class GripperTripleBase(SimulatorBase):
         super().__init__(config)
 
     def post_load_mjcf(self):
-        try:
-            self.init_joint_pose = self.mj_model.key(self.config.init_key).qpos[:self.nj]
-            self.init_joint_ctrl = self.mj_model.key(self.config.init_key).ctrl[:self.nj]
-        except KeyError as e:
-            self.init_joint_pose = np.zeros(self.nj)
-            self.init_joint_ctrl = np.zeros(self.nj)
+        # try:
+        #     self.init_joint_pose = self.mj_model.key(self.config.init_key).qpos[:self.nj]
+        #     self.init_joint_ctrl = self.mj_model.key(self.config.init_key).ctrl[:self.nj]
+        # except KeyError as e:
+        #     self.init_joint_pose = np.zeros(self.nj)
+        #     self.init_joint_ctrl = np.zeros(self.nj)
 
         self.sensor_joint_qpos = self.mj_data.sensordata[:self.nj]
         self.sensor_joint_qvel = self.mj_data.sensordata[self.nj:2*self.nj]
@@ -57,8 +57,8 @@ class GripperTripleBase(SimulatorBase):
 
     def resetState(self):
         mujoco.mj_resetData(self.mj_model, self.mj_data)
-        self.mj_data.qpos[:self.nj] = self.init_joint_pose.copy()
-        self.mj_data.ctrl[:self.nj] = self.init_joint_ctrl.copy()
+        # self.mj_data.qpos[:self.nj] = self.init_joint_pose.copy()
+        # self.mj_data.ctrl[:self.nj] = self.init_joint_ctrl.copy()
         mujoco.mj_forward(self.mj_model, self.mj_data)
 
     def updateControl(self, action):

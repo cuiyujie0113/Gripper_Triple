@@ -7,8 +7,8 @@ class BaseConfig:
     headless       = False
     render_set     = {
         "fps"    : 24,
-        "width"  : 1280,
-        "height" :  720
+        "width"  : 640,
+        "height" :  480
     }
     obs_rgb_cam_id = None
     obs_depth_cam_id = None

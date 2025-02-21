@@ -6,7 +6,7 @@ from gripper3.gaussian_renderer import util_gau
 import numpy as np
 import torch
 from dataclasses import dataclass
-from diff_gaussian_rasterization import GaussianRasterizer
+# from diff_gaussian_rasterization import GaussianRasterizer
 
 @dataclass
 class GaussianDataCUDA:
@@ -163,22 +163,22 @@ class CUDARenderer:
 
         self.need_rerender = False
         # run cuda rasterizer now is just a placeholder
-        rasterizer = GaussianRasterizer(raster_settings=self.raster_settings)
+        # rasterizer = GaussianRasterizer(raster_settings=self.raster_settings)
 
-        with torch.no_grad():
-            color_img, radii, depth_img, _alpha = rasterizer(
-                means3D = self.gaussians.xyz,
-                means2D = None,
-                shs = self.gaussians.sh,
-                colors_precomp = None,
-                opacities = self.gaussians.opacity,
-                scales = self.gaussians.scale,
-                rotations = self.gaussians.rot,
-                cov3D_precomp = None
-            )
+        # with torch.no_grad():
+        #     color_img, radii, depth_img, _alpha = rasterizer(
+        #         means3D = self.gaussians.xyz,
+        #         means2D = None,
+        #         shs = self.gaussians.sh,
+        #         colors_precomp = None,
+        #         opacities = self.gaussians.opacity,
+        #         scales = self.gaussians.scale,
+        #         rotations = self.gaussians.rot,
+        #         cov3D_precomp = None
+        #     )
 
-            self.render_depth_img = depth_img.permute(1, 2, 0).contiguous().cpu().numpy()
-            self.render_rgb_img = (255. * torch.clamp(color_img, 0.0, 1.0)).to(torch.uint8).permute(1, 2, 0).contiguous().cpu().numpy()
+        #     self.render_depth_img = depth_img.permute(1, 2, 0).contiguous().cpu().numpy()
+        #     self.render_rgb_img = (255. * torch.clamp(color_img, 0.0, 1.0)).to(torch.uint8).permute(1, 2, 0).contiguous().cpu().numpy()
 
         if render_depth:
             return self.render_depth_img

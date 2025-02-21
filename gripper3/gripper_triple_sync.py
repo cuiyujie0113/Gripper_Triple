@@ -1,8 +1,8 @@
 import rclpy
 import numpy as np
 
-from angle_subscriber import AngleSubscriber
-from position_control import PositionController
+from gripper3.angle_subscriber import AngleSubscriber
+from gripper3.position_control import PositionController
 from gripper3.envs.gripper_triple_base import GripperTripleCfg, GripperTripleBase
 
 class GripperTripleSync(GripperTripleBase):
@@ -32,8 +32,14 @@ class GripperTripleSync(GripperTripleBase):
                     self.circle[i] += 1
                 
                 target_angle = current_angle + self.circle[i] * 360
-                controller.set_target_position(target_angle)
-                controller.update_control()
+                
+                # pos control
+                # controller.set_target_position(target_angle)
+                # controller.update_control()
+
+                # pos visual
+                self.mj_data.qpos[i] = np.deg2rad(target_angle)
+
                 self.previous_pos[i] = current_angle
 
                 print(f"Joint {self.joint_names[i]} target: {target_angle:.2f} degrees, current: {current_angle:.2f}, previous: {self.previous_angle[i]:.2f}")
