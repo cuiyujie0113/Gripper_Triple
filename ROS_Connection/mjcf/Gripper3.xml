@@ -36,8 +36,8 @@
           <joint name="joint_thumb_2" pos="0 0 0" axis="0 0 -1" range="-1.57 1.57"/>
           <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_thumb_2"/>
           <body name="link_thumb_3" pos="0.04 0 0">
-            <inertial pos="0.000430237 0 -0.0175" mass="0.0942116" diaginertia="3.34086e-08 3.32342e-08 9.95885e-09"/>
-            <joint name="joint_thumb_3" pos="0 0 0" axis="0 0 1" range="-1.57 1.57"/>
+            <inertial pos="0.000430237 0 -0.0175" mass="0.000942116" diaginertia="3.34086e-08 3.32342e-08 9.95885e-09"/>
+            <joint name="joint_thumb_3" pos="0 0 0" axis="0 0 -1" range="-1.57 1.57"/>
             <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_thumb_3"/>
           </body>
         </body>
@@ -51,8 +51,8 @@
           <joint name="joint_index_2" pos="0 0 0" axis="0 0 -1" range="0 1.57"/>
           <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_index_2"/>
           <body name="link_index_3" pos="0.04 0 0">
-            <inertial pos="0.000430237 0 -0.012" quat="0.707107 0.707107 0 0" mass="0.0396681" diaginertia="4.24894e-09 4.1932e-09 4.17552e-09"/>
-            <joint name="joint_index_3" pos="0 0 0" axis="0 0 1" range="-3.14 3.14"/>
+            <inertial pos="0.000430237 0 -0.012" quat="0.707107 0.707107 0 0" mass="0.000396681" diaginertia="4.24894e-09 4.1932e-09 4.17552e-09"/>
+            <joint name="joint_index_3" pos="0 0 0" axis="0 0 -1" range="-3.14 3.14"/>
             <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_index_3"/>
           </body>
         </body>
@@ -62,8 +62,8 @@
         <joint name="joint_mid_1" pos="0 0 0" axis="0 0 1" range="0 1.57"/>
         <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_mid_1"/>
         <body name="link_mid_2" pos="0.035 0 0">
-          <inertial pos="0.000430237 0 0.012" quat="0.707107 0.707107 0 0" mass="0.0396681" diaginertia="4.24894e-09 4.1932e-09 4.17552e-09"/>
-          <joint name="joint_mid_2" pos="0 0 0" axis="0 0 -1" range="-3.14 3.14"/>
+          <inertial pos="0.000430237 0 0.012" quat="0.707107 0.707107 0 0" mass="0.000396681" diaginertia="4.24894e-09 4.1932e-09 4.17552e-09"/>
+          <joint name="joint_mid_2" pos="0 0 0" axis="0 0 1" range="-3.14 3.14"/>
           <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_mid_2"/>
         </body>
       </body>
