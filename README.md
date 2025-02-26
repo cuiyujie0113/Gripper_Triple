@@ -6,7 +6,13 @@
 ## Exoskeleton index
 <img src="images/exo_index.jpg" alt="Exoskeleton index" width="300">
 
+
 # Operation Steps
+0. Hardware wiring
+    - The RDK X5 has I2C5 (physical pin numbers 3 and 5) and I2C0 (physical pin numbers 27 and 28) enabled by default on the 40PIN, with an IO voltage of 3.3V.
+    - By default, **I2C0** is used (physical pin numbers **27** and **28**).
+    - The sequence of the four pins on the string board is as shown in the figure, with the silkscreen marking **VCC**.
+    <img src="images/TCA.png" alt="TCA" width="100">
 1. sunrise RDK x5 IP setting
     - The RDK's static IP is `192.168.127.10`, connected via wired connection.
     - Connect to Wi-Fi, it is recommended to use a mobile hotspot and ensure that only this Wi-Fi network is set to auto-connect. Subsequent power supply will allow for direct connection.
