@@ -8,7 +8,7 @@ class AngleSubscriber(Node):
         # 创建订阅者，订阅名为 'angles' 的话题
         self.subscription = self.create_subscription(
             Float32MultiArray,
-            'angles',
+            '/Exo/Angles',
             self.listener_callback,
             10)
         self.subscription  # 让订阅对象不被垃圾回收

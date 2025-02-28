@@ -35,46 +35,24 @@ rclpy.init()
 angle_subscriber = AngleSubscriber()
 joint_state_publisher = JointStatePublisher()
 
-zero_angles = [320.07568359375, 46.60400390625, 42.78076171875, 72.39990234375, 155.3466796875, 128.759765625, 244.92919921875, 296.69677734375]
-
 joint_names = [model.joint(i).name for i in range(model.njnt)]
 
-circle = [0] * 8
-previous_angle = [0] * 8
-current_angle = [0] * 8
-target_angle = [0] * 8
-
 controllers = [PositionController(model, data, joint_name) for joint_name in joint_names]
-angle_indices = [7, 6, 5, 2, 4, 3, 0, 1]
 
 with mujoco.viewer.launch_passive(model, data) as viewer:
     try:
         while rclpy.ok() and viewer.is_running():
             rclpy.spin_once(angle_subscriber)
             angles = angle_subscriber.latest_angles
-
-            for i, idx in enumerate(angle_indices):
-                if not np.isnan(angles[idx]):
-                    current_angle[idx] = angles[idx] - zero_angles[idx]
-                    if current_angle[idx] < 0:
-                        current_angle[idx] += 360
-
-                    if current_angle[idx] - previous_angle[idx] > 180:
-                        circle[idx] -= 1
-                    elif current_angle[idx] - previous_angle[idx] < -180:
-                        circle[idx] += 1
-
-                    target_angle[idx] = current_angle[idx] + circle[idx] * 360
-                    data.qpos[i] = np.deg2rad(target_angle[idx])
-                    previous_angle[idx] = current_angle[idx]
-
-                    # print(f"{joint_names[i]}: {target_angle[idx]} 度, {data.qpos[i]} 弧度")
+            for i in range(len(angles)):
+                data.qpos[i] = np.deg2rad(angles[i])
+                print(f"{joint_names[i]}: {angles[i]} 度, {data.qpos[i]} 弧度")
 
             # 进行物理仿真一步
             mujoco.mj_step(model, data)
             
             # 发布关节状态
-            joint_state_publisher.publish(data.qpos, np.array(target_angle))
+            joint_state_publisher.publish(data.qpos, np.array(angles))
             
             if viewer.is_running():
                 viewer.sync()

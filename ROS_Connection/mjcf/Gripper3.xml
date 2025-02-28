@@ -1,6 +1,13 @@
-<mujoco model="Gripper3">
-  <option integrator="RK4" solver="Newton" />
+<mujoco model="Gripper3_scene">
+  <option integrator="Euler" solver="Newton" />
   <compiler angle="radian" meshdir="meshes"/>
+
+  <visual>
+    <global offwidth="3840" offheight="2160" azimuth="-35" elevation="-35" fovy="8"/>
+    <quality shadowsize="4096" offsamples="4"/>
+    <headlight diffuse='0.6 0.6 0.6' ambient='.3 .3 .3' specular='0 0 0'/>
+    <scale com="0.05" camera="0.06" framelength="0.5" framewidth="0.02" forcewidth="0.1" contactwidth="0.01" contactheight="0.05"/>
+  </visual>
 
   <asset>
     <texture type='2d' name='groundplane' builtin='checker' mark='edge' rgb1='0.2 0.3 0.4' rgb2='0.1 0.2 0.3' markrgb='0.8 0.8 0.8' width='300' height='300'/>
@@ -19,71 +26,72 @@
     <mesh name="link_mid_2" file="link_mid_2.STL"/>
   </asset>
 
+
   <worldbody>
+  
     <light castshadow="false" directional='true' diffuse='.3 .3 .3' specular='0.3 0.3 0.3' pos='-1 -1 1' dir='1 1 -1'/>
     <light directional='true' diffuse='.3 .3 .3' specular='0.3 0.3 0.3' pos='0 0 1' dir='-1 1 -1'/>
     <light castshadow="false" directional='true' diffuse='.3 .3 .3' specular='0.3 0.3 0.3' pos='0 1 1' dir='0 -1 -1'/>
     <geom name='floor' type='plane' size='0 0 0.01' material='groundplane' pos='0 0 0'/>
-
-    <body name="Gripper3" pos="0 0 0.1" quat="1 1 0 0 ">
-      <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="base_link"/>
-      <body name="link_thumb_1" pos="0.067157 0.0018431 -0.004" quat="0.65328 0.653282 0.270599 0.270598">
-        <inertial pos="0.0249818 0.00292519 -0.000426827" quat="-0.151282 0.621205 0.181654 0.747141" mass="0.0603639" diaginertia="7.12491e-07 4.67003e-07 3.02562e-07"/>
-        <joint name="joint_thumb_1" pos="0 0 0" axis="0 0 -1" range="-1.57 1.57"/>
-        <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_thumb_1"/>
-        <body name="link_thumb_2" pos="0.038891 0.022 -0.0037574" quat="0.65328 -0.653282 0.270598 0.270599">
-          <inertial pos="0.0198794 -0.00556857 -0.0175" quat="0.707107 0 0 0.707107" mass="0.0241355" diaginertia="4.23972e-06 3.07524e-06 2.67648e-06"/>
-          <joint name="joint_thumb_2" pos="0 0 0" axis="0 0 -1" range="-1.57 1.57"/>
-          <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_thumb_2"/>
+ 
+    <!-- **************** Gripper3 ********************* -->
+    <body name="Gripper3" pos="0 0 0.05" quat="1 1 0 0">
+      <geom contype="0" conaffinity="0" type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="base_link"/>
+      <body name="link_thumb_1" pos="0.067015 0.0019846 -0.004" quat="0.65328 0.653282 0.270599 0.270598">
+        <inertial pos="0.025141 0.0029481 -0.00024404" quat="-0.152768 0.619773 0.183829 0.747496" mass="0.01606" diaginertia="1.9022e-06 1.24268e-06 8.08384e-07"/>
+        <joint damping='.01'  name="joint_thumb_1" pos="0 0 0" axis="0 0 1" range="-1.57 1.57"/>
+        <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link_thumb_1"/>
+        <body name="link_thumb_2" pos="0.038891 0.022 -0.0035574" quat="0.65328 -0.653282 0.270598 0.270599">
+          <inertial pos="0.019915 -0.0055811 -0.0175" quat="0.707107 0 0 0.707107" mass="0.065019" diaginertia="1.1441e-05 8.2971e-06 7.2259e-06"/>
+          <joint damping='.01'  name="joint_thumb_2" pos="0 0 0" axis="0 0 1" range="-1.57 1.57"/>
+          <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link_thumb_2"/>
           <body name="link_thumb_3" pos="0.04 0 0">
-            <inertial pos="0.000430237 0 -0.0175" mass="0.000942116" diaginertia="3.34086e-08 3.32342e-08 9.95885e-09"/>
-            <joint name="joint_thumb_3" pos="0 0 0" axis="0 0 -1" range="-1.57 1.57"/>
-            <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_thumb_3"/>
+            <inertial pos="0.020262 -0.0029322 -0.0175" quat="0.5061 0.506102 0.493814 0.493833" mass="0.047615" diaginertia="7.44324e-06 5.8286e-06 3.73556e-06"/>
+            <joint damping='.01'  name="joint_thumb_3" pos="0 0 0" axis="0 0 1" range="-1.57 1.57"/>
+            <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link_thumb_3"/>
           </body>
         </body>
       </body>
-      <body name="link_index_1" pos="0.057 0.072 0">
-        <inertial pos="0 0.00714496 -0.004" quat="0.5 0.5 0.5 0.5" mass="0.019458" diaginertia="5.18781e-08 4.86389e-08 1.75868e-08"/>
-        <joint name="joint_index_1" pos="0 0 0" axis="0 0 1" range="0 0.717"/>
-        <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_index_1"/>
-        <body name="link_index_2" pos="0.012 0.012 -0.004" quat="0.499998 0.5 0.500002 0.5">
-          <inertial pos="0.0202433 -0.0154033 -0.012" quat="0.5 0.5 -0.5 0.5" mass="0.03191" diaginertia="6.73002e-06 5.58331e-06 4.10853e-06"/>
-          <joint name="joint_index_2" pos="0 0 0" axis="0 0 -1" range="0 1.57"/>
-          <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_index_2"/>
+      <body name="link_index_1" pos="0.057 0.072 0" quat="-2.59734e-06 -0.707105 -0.707108 -2.59735e-06">
+        <inertial pos="0.0071476 0 0.004" quat="0.707107 0.707107 0 0" mass="0.0052318" diaginertia="1.3972e-07 1.3106e-07 4.7319e-08"/>
+        <joint damping='.01'  name="joint_index_1" pos="0 0 0" axis="0 0 1" range="0 0.785"/>
+        <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link_index_1"/>
+        <body name="link_index_2" pos="0.012008 0.012 0.004" quat="0.707105 -0.707108 0 0">
+          <inertial pos="0.020256 -0.015419 -0.012" quat="0.5 0.5 -0.5 0.5" mass="0.086072" diaginertia="1.8171e-05 1.5074e-05 1.1092e-05"/>
+          <joint damping='.01'  name="joint_index_2" pos="0 0 0" axis="0 0 1" range="0 1.57"/>
+          <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link_index_2"/>
           <body name="link_index_3" pos="0.04 0 0">
-            <inertial pos="0.000430237 0 -0.012" quat="0.707107 0.707107 0 0" mass="0.000396681" diaginertia="4.24894e-09 4.1932e-09 4.17552e-09"/>
-            <joint name="joint_index_3" pos="0 0 0" axis="0 0 -1" range="-3.14 3.14"/>
-            <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_index_3"/>
+            <inertial pos="0.025657 -0.0038147 -0.012635" quat="0.502563 0.502506 0.497476 0.497429" mass="0.044219" diaginertia="8.80066e-06 8.4244e-06 2.40524e-06"/>
+            <joint damping='.01'  name="joint_index_3" pos="0 0 0" axis="0 0 1" range="0 3.14"/>
+            <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link_index_3"/>
           </body>
         </body>
       </body>
       <body name="link_mid_1" pos="0.021 0.104 -0.004" quat="0.499998 0.5 0.500002 0.5">
-        <inertial pos="0.0177498 -0.0152977 0.012" quat="0.5 0.5 -0.5 0.5" mass="0.02711" diaginertia="5.04322e-06 4.71291e-06 2.83133e-06"/>
-        <joint name="joint_mid_1" pos="0 0 0" axis="0 0 1" range="0 1.57"/>
-        <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_mid_1"/>
+        <inertial pos="0.017763 -0.015315 0.012" quat="0.5 0.5 -0.5 0.5" mass="0.073112" diaginertia="1.3616e-05 1.2724e-05 7.6435e-06"/>
+        <joint damping='.01'  name="joint_mid_1" pos="0 0 0" axis="0 0 1" range="0 1.57"/>
+        <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link_mid_1"/>
         <body name="link_mid_2" pos="0.035 0 0">
-          <inertial pos="0.000430237 0 0.012" quat="0.707107 0.707107 0 0" mass="0.000396681" diaginertia="4.24894e-09 4.1932e-09 4.17552e-09"/>
-          <joint name="joint_mid_2" pos="0 0 0" axis="0 0 1" range="-3.14 3.14"/>
-          <geom contype="1" conaffinity="0" type="mesh" rgba="1 1 1 1" mesh="link_mid_2"/>
+          <inertial pos="0.025657 -0.0036078 0.012635" quat="0.502562 0.502507 0.497476 0.49743" mass="0.044219" diaginertia="8.80066e-06 8.4245e-06 2.40524e-06"/>
+          <joint damping='.01'  name="joint_mid_2" pos="0 0 0" axis="0 0 1" range="0 3.14"/>
+          <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="link_mid_2"/>
         </body>
       </body>
     </body>
   </worldbody>
 
-  <!-- <actuator>
-    <position name="joint_thumb_1" joint="joint_thumb_1" forcelimited="true" forcerange="-100 100" ctrlrange="-1.57 1.57" kp='0.001' kv='1'/>
-    <position name="joint_thumb_2" joint="joint_thumb_2" forcelimited="true" forcerange="-100 100" ctrlrange="-1.57 1.57" kp='1.5' kv='0.005'/>
-    <position name="joint_thumb_3" joint="joint_thumb_3" forcelimited="true" forcerange="-100 100" kp='1.5' kv='0.005'/>
-    
-    <position name="joint_index_1" joint="joint_index_1" forcelimited="true" forcerange="-100 100"  kp='0.1' kv='1'/>
-    <position name="joint_index_2" joint="joint_index_2" forcelimited="true" forcerange="-100 100"  kp='0.1' kv='1'/>
-    <position name="joint_index_3" joint="joint_index_3" forcelimited="true" forcerange="-100 100"  kp='0.1' kv='1'/>
-    
-    <position name="joint_mid_1" joint="joint_mid_1" forcelimited="true" forcerange="-100 100" kp='1.5' kv='0.01'/>
-    <position name="joint_mid_2" joint="joint_mid_2" forcelimited="true" forcerange="-100 100" kp='1.5' kv='0.0001'/>
-  
-  </actuator> -->
+  <actuator>
+
+    <position name="joint_thumb_1" joint="joint_thumb_1" forcelimited="true" forcerange="-100 100" ctrlrange="-1.57 1.57" kp='1.5' kv='0.05'/>
+    <position name="joint_thumb_2" joint="joint_thumb_2" forcelimited="true" forcerange="-100 100" ctrlrange="-1.57 1.57" kp='1.5' kv='0.01'/>
+    <position name="joint_thumb_3" joint="joint_thumb_3" forcelimited="true" forcerange="-100 100" ctrlrange="-1.57 1.57" kp='1.5' kv='0.01'/>
+
+    <position name="joint_index_1" joint="joint_index_1" forcelimited="true" forcerange="-100 100" ctrlrange="0 0.7857" kp='1.5' kv='0.01'/>
+    <position name="joint_index_2" joint="joint_index_2" forcelimited="true" forcerange="-100 100" ctrlrange="0 1.57" kp='1.5' kv='0.01'/>
+    <position name="joint_index_3" joint="joint_index_3" forcelimited="true" forcerange="-100 100" ctrlrange="0 3.14" kp='1.5' kv='0.01'/>
+
+    <position name="joint_mid_1" joint="joint_mid_1" forcelimited="true" forcerange="-100 100" ctrlrange="0 1.57" kp='1.5' kv='0.01'/>
+    <position name="joint_mid_2" joint="joint_mid_2" forcelimited="true" forcerange="-100 100" ctrlrange="0 3.14" kp='1.5' kv='0.01'/>
+  </actuator>
 
 </mujoco>
-
-
