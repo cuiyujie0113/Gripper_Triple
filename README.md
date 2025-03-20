@@ -14,7 +14,7 @@
     - The sequence of the four pins on the string board is as shown in the figure, with the silkscreen marking **VCC**.
     - <img src="images/TCA.png" alt="TCA" width="200">
 1. sunrise RDK x5 IP setting
-    - The RDK's static IP is `192.168.127.10`, connected via wired connection.
+    - The static IP for the RDK X5 Ethernet port connection is **192.168.127.10**, and the static IP for the Type-C port connection is **192.168.128.10**.
     - Connect to Wi-Fi, it is recommended to use a mobile hotspot and ensure that only this Wi-Fi network is set to auto-connect. Subsequent power supply will allow for direct connection.
         - `sudo wifi_connect "YOUR WIFI NAME" "YOUR WIFI PASSWORD"`
         - **if not work** 
