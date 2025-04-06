@@ -1,0 +1,3 @@
+[submodule "Exoskeleton_RDK"]
+	path = Exoskeleton_RDK
+	url = git@github.com:YukiaCUI/Exoskeleton_RDK.git
