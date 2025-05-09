@@ -7,6 +7,7 @@ from sam2.sam2_image_predictor import SAM2ImagePredictor
 import hydra
 from hydra.core.global_hydra import GlobalHydra
 import os
+import time
 
 def extract_valid_jpeg_bytes(row):
     """
@@ -36,8 +37,8 @@ print(f"成功解码 {len(decoded_frames)} 帧。")
 # --- 2. 加载 SAM2 预训练模型 ---
 # --- 0. 定义路径 ---
 config_dir = "sam2_model"  # YAML配置文件所在目录
-checkpoint_path = "/media/cyj/DATA/大四下/UMI_Gripper3/Gripper_Triple/pre_process_data/sam2_model/sam2_hiera_large.pt"  # 模型权重路径
-
+checkpoint_path = "/media/cyj/DATA/大四下/UMI_Gripper3/Gripper_Triple/pre_process_data/sam2_model/sam2_hiera_tiny.pt"  # 模型权重路径
+ 
 # --- 1. 初始化 Hydra 并添加自定义配置路径 ---
 GlobalHydra.instance().clear()  # 清除之前的 Hydra 实例
 hydra.initialize(config_path=config_dir)  # 指定 Hydra 的配置搜索路径
@@ -45,14 +46,15 @@ hydra.initialize(config_path=config_dir)  # 指定 Hydra 的配置搜索路径
 # --- 2. 加载 SAM2 预训练模型 ---
 try:
     # 加载配置文件（Hydra 会在 config_dir 中查找 sam2_hiera_l.yaml）
-    model_cfg = "sam2_hiera_l.yaml"  # 直接使用文件名
+    model_cfg = "sam2_hiera_t.yaml"  # 直接使用文件名
     
     # 确保 checkpoint 文件存在
     assert os.path.exists(checkpoint_path), f"Checkpoint {checkpoint_path} 不存在!"
     
     # 构建 SAM2 模型
     sam2_model = build_sam2(model_cfg, checkpoint_path)
-    
+
+        
     # 创建预测器
     predictor = SAM2ImagePredictor(sam2_model)
     
@@ -65,6 +67,8 @@ finally:
 
 # --- 3. 逐张分割并展示图像 ---
 for idx, frame in enumerate(decoded_frames):
+    start_time = time.time()
+
     # 设置当前图像到 predictor 中
     predictor.set_image(frame)
     height, width, _ = frame.shape
@@ -103,6 +107,8 @@ for idx, frame in enumerate(decoded_frames):
     cv2.putText(overlay, f"Frame: {idx+1}, Masks: {len(masks)}", (10, 30), 
             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     cv2.imshow("Segmented Image", overlay)
+    end_time = time.time()
+    print(f"处理第 {idx+1} 帧耗时: {end_time - start_time:.2f} 秒")
     print(f"显示第 {idx+1} 帧，按任意键继续，按 'q' 退出...")
     key = cv2.waitKey(0)
     if key & 0xFF == ord('q'):
