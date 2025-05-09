@@ -45,7 +45,7 @@ with mujoco.viewer.launch_passive(model, data) as viewer:
             rclpy.spin_once(angle_subscriber)
             angles = angle_subscriber.latest_angles
             for i in range(len(angles)):
-                data.qpos[i] = np.deg2rad(angles[i])
+                data.ctrl[i] = np.deg2rad(angles[i])
                 print(f"{joint_names[i]}: {angles[i]} 度, {data.qpos[i]} 弧度")
 
             # 进行物理仿真一步
